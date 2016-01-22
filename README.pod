@@ -1,0 +1,25 @@
+=head1 NAME
+
+Hoax - a quick API 'pattern' to allow for mock-services
+
+=head1 SYNOPSIS
+
+First we need to build a package to define the service: 
+
+    package Hoax::SomePkg;
+    use strict;
+    use warnings;
+    sub kitten { return { kitten => 'cute' } };
+
+The key here it to include it in the 'Hoax' namespace. 
+    
+    response_status_is [GET => '/SomePkg/kitten'], 200, qq{GET /SomePkg/kitten is cute};
+
+    my $expect = <<END;
+    {
+       "kitten" : "cute"
+    }
+    END 
+    response_content_is [GET => '/SomePkg/kitten'], $expect, qq{reply is correct JSON};
+
+
